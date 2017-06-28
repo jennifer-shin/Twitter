@@ -7,12 +7,6 @@
     tools:context="com.codepath.apps.restclienttemplate.ComposeActivity">
 
     <EditText
-        android:id="@+id/et_simple"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    </EditText>
-
-    <EditText
         android:id="@+id/etTweet"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -25,10 +19,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/etTweet"
+        android:layout_below="@id/etTweet"
         android:layout_marginEnd="17dp"
         android:text="Tweet"
-        android:onClick="postTweet"/>
-
+        android:background="@android:color/holo_blue_bright"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:onClick="postTweet"
+        />
 
 </RelativeLayout>
