@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item
         android:id="@+id/miCompose"
-        android:icon="@drawable/ic_compose"
+        android:icon="@drawable/ic_vector_compose"
         android:onClick="onComposeAction"
         app:showAsAction="ifRoom"
         android:title="Compose">

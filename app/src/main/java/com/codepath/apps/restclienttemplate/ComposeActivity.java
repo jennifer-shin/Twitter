@@ -37,7 +37,8 @@ public class ComposeActivity extends AppCompatActivity {
 //                postTweet(v);
 //            }
 //        });
-        sms_count = (TextView) findViewById(R.id.tvCharCount);
+
+       sms_count = (TextView) findViewById(R.id.tvCharCount);
         final TextWatcher txwatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -98,4 +99,5 @@ public class ComposeActivity extends AppCompatActivity {
             }
         });
     }
+
 }
