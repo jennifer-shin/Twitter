@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,6 +30,7 @@ public class TimelineActivity extends AppCompatActivity {
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +55,26 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void showProgressBar() {
+                // Show progress item
+                miActionProgressItem.setVisible(true);
+            }
+
             @Override
             public void onRefresh() {
                 // Send the network request to fetch the updated data
                 // `client` here is an instance of Android Async HTTP
                 // getHomeTimeline is an example endpoint.
 
+                showProgressBar();
+
                 client.getHomeTimeline(new JsonHttpResponseHandler() {
+
+                    public void hideProgressBar() {
+                        // Hide progress item
+                        miActionProgressItem.setVisible(false);
+                    }
+
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         // Remember to CLEAR OUT old items before appending in the new ones
@@ -66,12 +82,14 @@ public class TimelineActivity extends AppCompatActivity {
                         // ...the data has come back, add new items to your adapter...
                         tweetAdapter.addAll(Tweet.fromJSONArray(response));
                         swipeContainer.setRefreshing(false);
+                        hideProgressBar();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         Log.d("TwitterClient", errorResponse.toString());
                         throwable.printStackTrace();
+                        hideProgressBar();
                     }
                 });
 
@@ -113,6 +131,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("TwitterClient", response.toString());
@@ -156,5 +175,15 @@ public class TimelineActivity extends AppCompatActivity {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
     }
 }
