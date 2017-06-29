@@ -28,11 +28,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tweet"
-        android:background="@android:color/holo_blue_bright"
+        android:background="@color/twitter_blue"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:onClick="postTweet"
         android:layout_below="@+id/textInputLayout"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tvCharCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etTweet"
+        android:layout_marginStart="16dp"
+        android:text="140" />
 
 </RelativeLayout>
