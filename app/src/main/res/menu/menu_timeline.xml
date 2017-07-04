@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@drawable/vector_compose_fab"
+        android:onClick="onComposeAction"
+        android:title="Compose"
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/miProfile"
         android:icon="@drawable/ic_vector_person_stroke"
         android:onClick="onProfileView"
         android:title="Item"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/miActionProgress"
+        android:title="Loading..."
+        android:visible="false"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_view_progress" />
 </menu>
