@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.TwitterApplication;
 import com.codepath.apps.restclienttemplate.TwitterClient;
+import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -18,7 +19,15 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class HomeTimelineFragment extends TweetsListFragment {
-    TwitterClient client;
+    private TwitterClient client;
+
+    public void appendTweet(Tweet tweet) {
+        tweets.add(0, tweet);
+
+        // inserted at position 0
+        tweetAdapter.notifyItemInserted(0);
+        rvTweets.scrollToPosition(0);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // Log.d("TwitterClient", response.toString());
+                Log.d("TwitterClient", response.toString());
                 addItems(response);
 
             }

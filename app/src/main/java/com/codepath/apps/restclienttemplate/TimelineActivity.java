@@ -3,22 +3,25 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.fragments.HomeTimelineFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsListFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsPagerAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
+    MenuItem miActionProgressItem;
+    TweetsPagerAdapter adapterViewPager;
 
     // TwitterClient client;
-
     //TweetsListFragment fragmentTweetsList;
-
     //private SwipeRefreshLayout swipeContainer;
     //MenuItem miActionProgressItem;
 
@@ -31,10 +34,13 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
 
         // set the adapter for the pager
-        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), this));
+        //vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), this));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+        adapterViewPager = new TweetsPagerAdapter(getSupportFragmentManager(), this);
+        vpPager.setAdapter(adapterViewPager);
 
         // client = TwitterApplication.getRestClient();
 
@@ -121,6 +127,9 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+            HomeTimelineFragment fragmentHomeTweets =
+                    (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
+            fragmentHomeTweets.appendTweet(tweet);
             //tweets.add(0, tweet);
             //tweetAdapter.notifyItemInserted(0);
             //rvTweets.scrollToPosition(0);
@@ -174,7 +183,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
     }
     */
 
-/*
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Store instance of the menu item containing progress
@@ -184,5 +193,4 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         // Return to finish
         return super.onPrepareOptionsMenu(menu);
     }
-    */
 }

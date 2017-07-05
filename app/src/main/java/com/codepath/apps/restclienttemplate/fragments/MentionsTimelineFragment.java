@@ -18,7 +18,7 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class MentionsTimelineFragment extends TweetsListFragment {
-    TwitterClient client;
+    private TwitterClient client;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // Log.d("TwitterClient", response.toString());
+                Log.d("TwitterClient", response.toString());
                 addItems(response);
 
             }
