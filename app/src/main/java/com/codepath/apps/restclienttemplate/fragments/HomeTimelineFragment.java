@@ -21,14 +21,6 @@ import cz.msebera.android.httpclient.Header;
 public class HomeTimelineFragment extends TweetsListFragment {
     private TwitterClient client;
 
-    public void appendTweet(Tweet tweet) {
-        tweets.add(0, tweet);
-
-        // inserted at position 0
-        tweetAdapter.notifyItemInserted(0);
-        rvTweets.scrollToPosition(0);
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,5 +62,13 @@ public class HomeTimelineFragment extends TweetsListFragment {
             }
         });
 
+    }
+
+    public void appendTweet(Tweet tweet) {
+        tweets.add(0, tweet);
+
+        // inserted at position 0
+        tweetAdapter.notifyItemInserted(0);
+        rvTweets.scrollToPosition(0);
     }
 }

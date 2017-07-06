@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.codepath.apps.restclienttemplate.fragments.UserTimelineFragment;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,18 +37,68 @@ public class ProfileActivity extends AppCompatActivity {
         ft.commit();
 
         client = TwitterApplication.getRestClient();
-        client.getUserInfo(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    User user = User.fromJSON(response);
-                    getSupportActionBar().setTitle(user.screeName);
-                    populateUserHeadline(user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if(screenName == null){
+            client.getUserInfo(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        User user = User.fromJSON(response);
+                        getSupportActionBar().setTitle("@" + user.screeName);
+                        // populate the user headline
+                        populateUserHeadline(user);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e("ProfileActivity", responseString);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("ProfileActivity", errorResponse.toString());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    Log.e("ProfileActivity", errorResponse.toString());
+                }
+            });
+        }
+        else {
+            client.getUserInfo(screenName, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+                        User user = User.fromJSON(response);
+                        getSupportActionBar().setTitle("@" + user.screeName);
+                        // populate the user headline
+                        populateUserHeadline(user);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e("ProfileActivity", responseString);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("ProfileActivity", errorResponse.toString());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    Log.e("ProfileActivity", errorResponse.toString());
+                }
+            });
+        }
     }
 
     public void populateUserHeadline (User user) {
