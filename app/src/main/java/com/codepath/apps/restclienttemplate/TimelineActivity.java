@@ -66,16 +66,12 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
                 // Send the network request to fetch the updated data
                 // `client` here is an instance of Android Async HTTP
                 // getHomeTimeline is an example endpoint.
-
                 showProgressBar();
-
                 client.getHomeTimeline(new JsonHttpResponseHandler() {
-
                     public void hideProgressBar() {
                         // Hide progress item
                         miActionProgressItem.setVisible(false);
                     }
-
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         // Remember to CLEAR OUT old items before appending in the new ones
@@ -85,7 +81,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
                         swipeContainer.setRefreshing(false);
                         hideProgressBar();
                     }
-
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                         Log.d("TwitterClient", errorResponse.toString());
@@ -93,7 +88,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
                         hideProgressBar();
                     }
                 });
-
             }
         });*/
     }
@@ -148,38 +142,31 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
 /*
     private void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("TwitterClient", response.toString());
             }
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Log.d("TwitterClient", response.toString());
                 fragmentTweetsList.addItems(response);
-
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d("TwitterClient", responseString);
                 throwable.printStackTrace();
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.d("TwitterClient", errorResponse.toString());
                 throwable.printStackTrace();
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 Log.d("TwitterClient", errorResponse.toString());
                 throwable.printStackTrace();
             }
         });
-
     }
     */
 
